@@ -3,14 +3,13 @@ body, html {
     padding: 0;
     height: 100%;
     font-family: sans-serif;
+    overflow-y: hidden;
 }
 
 .grid {
     display: grid;
-    grid-template-rows: 5% 1fr;
     grid-template-columns: 300px minmax(200px, 1fr) 300px;
-    height: 100vh;
-
+    height: 100%;
 }
 
 @media (max-width: 1000px) {
@@ -31,7 +30,6 @@ body, html {
     }
 }
 
-
 .headerCell {
     color: #323c47;
     font-weight: bold;
@@ -41,12 +39,14 @@ body, html {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 30px;
 }
 
 .bodyCell {
+    height: 90%;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    overflow-y: auto;
 }
 
 .left {
@@ -55,9 +55,10 @@ body, html {
 
 .right {
     text-align: right;
+    align-items: right;
 }
 
-.conversations, .messages {
+.conversations {
     display: flex;
     flex-direction: column;
     overflow-wrap: break-word;
@@ -73,10 +74,10 @@ body, html {
 
 .convoImage {
     margin-right: 10px;
-    width: 50px;         /* Define the width you want for your images */
-    height: 50px;        /* Define the height you want for your images */
-    object-fit: cover;   /* Ensures the image covers the given dimensions without distortion */
-    border-radius: 50%;  /* Makes the image round, remove if you don't want this effect */
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
 }
 
 .convoName {
@@ -88,16 +89,22 @@ body, html {
     font-size: small;
     color: #323c47;
     display: -webkit-box;
-    -webkit-line-clamp: 2;   /* Number of lines to display */
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
-    overflow: hidden;       /* Ensures that the excess is not shown */
-    max-height: 40px;       /* You may need to adjust this based on your font size and line-height */
-    line-height: 20px;      /* Adjust based on your design requirements */
+    overflow: hidden;
+    max-height: 40px;
+    line-height: 20px;
 }
 
 .messages {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
     background-color: #efeff4;
     color: #333d48;
+    overflow-y: auto;
+    overflow-wrap: break-word;
+    height: 0px;
 }
 
 .messageOther {
@@ -150,13 +157,8 @@ body, html {
     padding: 5px 10px;
     border: none;
     border-radius: 5px;
-    background-color: #dbe7eb;
+    background-color: #ffffff;
     cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.messageButton:hover {
-    background-color: #c2d3d6;
 }
 
 .textInput {
@@ -169,4 +171,12 @@ body, html {
     resize: none;
     max-height: 100px;
     overflow-y: auto;
+}
+
+.microphoneButton {
+
+}
+
+.icon {
+    max-width: 20px;
 }
