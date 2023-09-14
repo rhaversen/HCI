@@ -8,95 +8,48 @@
 </head>
 <body>
     <div class="grid">
-        <div class="headerCell">
-            <div class="container">
+        <span class="conversationsContainer">
+            <div class="headerCell">
                 <span class="left">Conversations</span>
-                <span class="right">=</span>
-            </div>            
-        </div>
-        <div class="headerCell">
-            <div class="container">
-                <span class="left">Left Text</span>
-                <span class="right">Q |||</span>
-            </div>    
-        </div>        
-        <div class="headerCell">
-            <div class="container">
+            </div>
+            <div class="bodyCell">
+                <div class="conversations"></div>
+            </div>
+        </span>
+        <span class="messagesContainer">
+            <div class="headerCell">
+                <div class="left">Left Text</div>
+            </div>
+            <div class="bodyCell">
+                <div class="messages"></div>
+                <div class="composeMessage">
+                    <span class="messageButtons">
+                        <button class="messageButton">
+                            A
+                        </button>
+                        <button class="messageButton">
+                            A
+                        </button>
+                    </span>
+                    <textarea class="textInput" placeholder="Input message here"></textarea>
+                    <span class="messageButton">
+                        I
+                    </span>
+                </div>
+            </div>
+        </span>
+        <span class="convoInfoContainer">
+            <div class="headerCell">
                 <span class="left">Conversation info</span>
-            </div>            
-        </div>
-        <div class="bodyCell">
-            <div class=conversations>
-                <div class="conversation">
-                    <span class="image">
-                        // image
-                    </span>
-                    <div class="conversationInfo">
-                        <div class="conversationName">
-                            #AlphaProject
-                        </div>
-                        <div class="lastMessage">
-                            Come
-                        </div>
-                    </div>
-                </div>
-                <div class="conversation">
-                    <span class="image">
-                        // image
-                    </span>
-                    <div class="conversationInfo">
-                        <div class="conversationName">
-                            #AlphaProject
-                        </div>
-                        <div class="lastMessage">
-                            Come
-                        </div>
-                    </div>
-                </div>
             </div>
-        </div>
-        <div class="bodyCell">
-            <div class="messages">
-                <div class="messageOther">
-                    HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHello
-                </div>
-                <div class="messageUser">
-                    HelloHelloHelloHelloHelloHelloHelloHelloHelloHello
-                </div>
-                <div class="messageOther">
-                    Hello
-                </div>
-                <div class="messageUser">
-                    Hello
-                </div>
-                <div class="messageOther">
-                    Hello
-                </div>
-                <div class="messageUser">
-                    Hello
-                </div>
-                <div class="messageOther">
-                    Hello
-                </div>
+            <div class="bodyCell">
+                A
             </div>
-            <div class="composeMessage">
-                <span class="messageButtons">
-                    <button class="messageButton">
-                        A
-                    </button>
-                    <button class="messageButton">
-                        A
-                    </button>
-                </span>
-                <textarea class="textInput" placeholder="Input message here"></textarea>
-                <span class="messageButton">
-                    I
-                </span>
-            </div>
-        </div>
-        <div class="bodyCell">2,3</div>
-    </div>    
+        </span>
+    </div>
 </body>
+
+</html>
 
 <script>
     const textarea = document.querySelector('.textInput');
@@ -107,7 +60,90 @@
     });
 </script>
 
+<script>
+    const messages = [
+    { type: 'other', text: 'Hey, have you seen my blue notebook?' },
+    { type: 'other', text: 'I had it in the meeting room earlier and can\'t seem to find it now' },
+    { type: 'user', text: 'Oh, I think I saw it on the table near the window. Maybe you left it there?' },
+    { type: 'other', text: 'Ah, thanks! I\'ll check there' },
+    { type: 'other', text: 'Also, did you take notes during today\'s meeting? I missed a few points' },
+    { type: 'user', text: 'Yes, I did. Would you like a copy?' },
+    { type: 'other', text: 'That would be great, thank you!' },
+    { type: 'user', text: 'No problem, I\'ll email them to you.' },
+    { type: 'user', text: 'And next time, remind me to sit closer to you during meetings so we can share notes in real-time!' },
+    { type: 'other', text: 'That sounds like a good idea. Today\'s meeting was packed with information. I didn\’t expect it to be so detailed' },
+    { type: 'other', text: 'By the way, what did you think about the new project proposal?' },
+    { type: 'user', text: 'I found it ambitious, but I\'m concerned about the tight deadlines. Do you think we have the resources to execute it on time?' },
+    { type: 'other', text: 'It\'s going to be a challenge for sure. We might need to prioritize tasks and perhaps request additional support' },
+    { type: 'user', text: 'Agreed. And communication will be key. We should consider having more frequent check-ins' },
+    { type: 'user', text: 'Also, there were some technological aspects mentioned that I wasn\'t familiar with. Maybe we could have a training session?' },
+    { type: 'other', text: 'Great idea! I\'ll talk to the IT team about setting up a workshop for us' },
+    { type: 'other', text: 'And speaking of communication, maybe we should create a dedicated chat group for the project? It might streamline our discussions' },
+    { type: 'user', text: 'Perfect. I\'ll get on that right after sending you the notes' },
+    { type: 'user', text: 'Anything else we need to consider?' },
+    { type: 'other', text: 'Not for now, but let\'s keep the lines of communication open. I appreciate your proactive approach!' },
+];
 
+const messagesContainer = document.querySelector('.messages');
+messages.forEach(message => {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = message.type === 'user' ? 'messageUser' : 'messageOther';
+    messageDiv.textContent = message.text;
+    messagesContainer.appendChild(messageDiv);
+});
+</script>
 
+<script>
+    const conversations = [
+        { image: '1.jpg', userName: 'Celeste James', lastMessage: 'Catch up soon!' },
+        { image: '2.jpg', userName: 'Jorge Christensen', lastMessage: 'Just a heads-up, I might be running a little late for our meeting this evening. Got held up at a prior commitment. I\'ll keep you posted on my timing.' },
+        { image: '3.jpg', userName: 'Ray Mccarty', lastMessage: 'Checking on this, will update you soon.' },
+        { image: '4.jpg', userName: 'Shayla Coleman', lastMessage: 'Hey, I just wanted to let you know that I\'ve reviewed the document you sent. There are a few changes I\'d like to discuss. Can we set up a call for tomorrow?' },
+        { image: '5.jpg', userName: 'Kenneth Morales', lastMessage: 'Wanted to update you on the project status. We\'re slightly behind schedule due to some unforeseen issues, but the team is working overtime to catch up.' },
+        { image: '6.jpg', userName: 'Hugh Lamb', lastMessage: 'Thanks for the recommendation!' },
+        { image: '7.jpg', userName: 'Hugo Frye', lastMessage: 'The workshop you organized was incredibly insightful. I\'ve already started applying some of the techniques in my day-to-day work. Thanks for putting it together' },
+        { image: '8.jpg', userName: 'Gabriella Patton', lastMessage: 'Appreciate your help on this!' },
+    ];
 
-</html>
+    const conversationContainer = document.querySelector('.conversations');
+
+    function createImageSpan(imageSrc) {
+        const imageSpan = document.createElement('span');
+
+        const imgElement = document.createElement('img');
+        imgElement.src = 'images/' + imageSrc;
+        imgElement.className = 'convoImage';
+        imageSpan.appendChild(imgElement);
+
+        return imageSpan;
+    }
+
+    function createInfoSpan(userName, lastMessage) {
+        const infoSpan = document.createElement('span');
+
+        const nameDiv = document.createElement('div');
+        nameDiv.textContent = userName;
+        nameDiv.className = 'convoName';
+
+        const lastMsgDiv = document.createElement('div');
+        lastMsgDiv.textContent = lastMessage;
+        lastMsgDiv.className = 'lastMessage';
+
+        infoSpan.appendChild(nameDiv);
+        infoSpan.appendChild(lastMsgDiv);
+
+        return infoSpan;
+    }
+
+    conversations.forEach(convo => {
+        const conversationDiv = document.createElement('div');
+        conversationDiv.className = 'conversation';
+
+        const imageSpan = createImageSpan(convo.image);
+        const infoSpan = createInfoSpan(convo.userName, convo.lastMessage);
+
+        conversationDiv.appendChild(imageSpan);
+        conversationDiv.appendChild(infoSpan);
+        conversationContainer.appendChild(conversationDiv);
+    });
+</script>

@@ -1,28 +1,52 @@
-.grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: 10% 100%;
-    gap: 0px;
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: sans-serif;
 }
 
+.grid {
+    display: grid;
+    grid-template-rows: 5% 1fr;
+    grid-template-columns: 300px minmax(200px, 1fr) 300px;
+    height: 100vh;
+
+}
+
+@media (max-width: 1000px) {
+    .grid {
+        grid-template-columns: 300px 1fr;
+    }
+    .convoInfoContainer {
+        display: none;
+    }
+}
+
+@media (max-width: 600px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+    .convoInfoContainer, .conversationsContainer {
+        display: none;
+    }
+}
+
+
 .headerCell {
-    padding-top: 10px;
-    padding-right: 10px;
-    padding-left: 10px;
+    color: #323c47;
+    font-weight: bold;
+    padding: 10px;
     text-align: center;
     background-color: #f7f7f7;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .bodyCell {
-    padding: 0px;
-    text-align: center;
-}
-
-.container {
     display: flex;
-    justify-content: space-between; /* This will push the two span elements to the extremes */
-    align-items: center; /* This will vertically center the text if the container has a height */
-    background-color: #f7f7f7;
+    flex-direction: column;
+    overflow: hidden;
 }
 
 .left {
@@ -33,100 +57,116 @@
     text-align: right;
 }
 
-.conversations {
-    display: flex; /* This enables Flexbox for the container */
-    align-items: left; /* This will vertically center-align the children if they have different heights */
+.conversations, .messages {
+    display: flex;
     flex-direction: column;
+    overflow-wrap: break-word;
+    flex: 1;
+    overflow-y: auto;
 }
 
 .conversation {
-    border: 1px solid rgb(140, 140, 140);
-    display: flex; /* This enables Flexbox for the container */
-    align-items: center; /* This will vertically center-align the children if they have different heights */
+    margin: 10px;
+    display: flex;
+    align-items: center;
 }
 
-.image {
-    padding: 10px;
-    /* Style for the image container. E.g., you can set width, height, margin, etc. */
-    margin-right: 10px; /* Optional: Adds some space between the image and the conversationInfo */
+.convoImage {
+    margin-right: 10px;
+    width: 50px;         /* Define the width you want for your images */
+    height: 50px;        /* Define the height you want for your images */
+    object-fit: cover;   /* Ensures the image covers the given dimensions without distortion */
+    border-radius: 50%;  /* Makes the image round, remove if you don't want this effect */
 }
 
-.conversationInfo {
-    /* Any additional styles for conversationInfo, if needed */
+.convoName {
+    font-weight: bolder;
 }
 
-.conversationName, .lastMessage {
-    text-align: left;
-    padding: 5px;
+.lastMessage {
+    font-weight: lighter;
+    font-size: small;
+    color: #323c47;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;   /* Number of lines to display */
+    -webkit-box-orient: vertical;
+    overflow: hidden;       /* Ensures that the excess is not shown */
+    max-height: 40px;       /* You may need to adjust this based on your font size and line-height */
+    line-height: 20px;      /* Adjust based on your design requirements */
 }
 
 .messages {
-    display: flex; /* This enables Flexbox for the container */
-    flex-direction: column;
     background-color: #efeff4;
+    color: #333d48;
 }
 
 .messageOther {
-    margin: 10px;
+    margin: 1px;
+    margin-left: 10px;
     padding: 10px;
-    text-align: left;
     background-color: #ffffff;
-    border-radius: 20px;
-    border-bottom-left-radius: 0;
-    max-width: 200px;
-    overflow-wrap: break-word; /* This ensures that long words or strings wrap instead of overflowing */
-    align-self: flex-start
+    border-radius: 20px 20px 20px 0px;
+    max-width: 70%;
+    align-self: flex-start;
 }
 
 .messageUser {
-    margin: 10px;
+    margin: 1px;
+    margin-right: 10px;
     padding: 10px;
-    text-align: right;
     background-color: #dbe7eb;
-    border-radius: 20px;
-    border-bottom-right-radius: 0px;
-    max-width: 200px;
-    overflow-wrap: break-word; /* This ensures that long words or strings wrap instead of overflowing */
-    align-self: flex-end
+    border-radius: 20px 20px 0px 20px;
+    max-width: 70%;
+    align-self: flex-end;
+}
+
+.messageOther + .messageOther {
+    border-top-left-radius: 0px;
+}
+
+.messageUser + .messageUser {
+    border-top-right-radius: 0px;
+}
+
+.messageOther + .messageUser, .messageUser + .messageOther {
+    margin-top: 10px;
 }
 
 .composeMessage {
-    display: flex; /* To align its children horizontally */
-    align-items: center; /* Vertically aligns the children in the middle */
-    background-color: #f7f7f7; /* Same background as other containers for consistency */
-    padding: 10px; /* Some padding for breathing space */
-    border-top: 1px solid rgb(140, 140, 140); /* A border at the top to separate from messages */
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    flex-shrink: 0;
 }
 
 .messageButtons {
-    flex: 1; /* Takes available space to push text input and the send button to the edges */
-    display: flex; /* To align its children horizontally */
-    gap: 10px; /* Space between the buttons */
-    flex-grow: 0;  /* Ensures the messageButtons doesn't compete for space */
+    flex: 0;
+    display: flex;
+    gap: 10px;
 }
 
 .messageButton {
-    padding: 5px 10px; /* Vertical and horizontal padding */
-    border: none; /* Removes default border */
-    border-radius: 5px; /* Rounded corners for a modern look */
-    background-color: #dbe7eb; /* A soft background color */
-    cursor: pointer; /* Cursor changes to hand when hovering over the button */
-    transition: background-color 0.3s; /* Smooth transition for hover effect */
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #dbe7eb;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 .messageButton:hover {
-    background-color: #c2d3d6; /* Darkens the button a bit when hovered */
+    background-color: #c2d3d6;
 }
 
 .textInput {
-    flex: 2; /* Allows the text input to take twice the space as the buttons area */
+    background-color: #f7f7f7;
+    border: none;
+    flex: 1;
     padding: 5px;
-    border: 1px solid rgb(140, 140, 140);
-    border-radius: 5px; /* Consistency in design with rounded corners */
-    margin-left: 10px; /* Some margin to separate from the buttons */
+    border-radius: 5px;
+    margin: 0 10px;
     resize: none;
     max-height: 100px;
     overflow-y: auto;
-    flex-grow: 1;  /* Allows the textarea to grow and take up any available space */
-    margin-right: 10px;  /* Some margin to separate from the right button */
 }
