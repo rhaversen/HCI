@@ -1,12 +1,62 @@
 .grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: 50px 50px;
+    grid-template-rows: 40% 100%;
     gap: 0px;
 }
+.headerCell {
+    padding-top: 10px;
+    padding-right: 10px;
+    padding-left: 10px;
+    border: 1px solid rgb(140, 140, 140);
+    text-align: center;
+    background-color: #bbbbbb;
+}
 
-.cell {
+.bodyCell {
     border: 1px solid black;
     padding: 0px;
     text-align: center;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between; /* This will push the two span elements to the extremes */
+    align-items: center; /* This will vertically center the text if the container has a height */
+    background-color: #bbbbbb;
+}
+
+.left {
+    text-align: left;
+}
+
+.right {
+    text-align: right;
+}
+
+.conversations {
+    display: flex; /* This enables Flexbox for the container */
+    align-items: left; /* This will vertically center-align the children if they have different heights */
+    flex-direction: column;
+}
+
+.conversation {
+    border: 1px solid rgb(140, 140, 140);
+    display: flex; /* This enables Flexbox for the container */
+    align-items: center; /* This will vertically center-align the children if they have different heights */
+}
+
+.image {
+    padding: 10px;
+    /* Style for the image container. E.g., you can set width, height, margin, etc. */
+    margin-right: 10px; /* Optional: Adds some space between the image and the conversationInfo */
+}
+
+.conversationInfo {
+    /* Any additional styles for conversationInfo, if needed */
+}
+
+.conversationName, .lastMessage {
+    text-align: left;
+    padding: 5px;
 }
