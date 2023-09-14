@@ -1,20 +1,19 @@
 .grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: 40% 100%;
+    grid-template-rows: 10% 100%;
     gap: 0px;
 }
+
 .headerCell {
     padding-top: 10px;
     padding-right: 10px;
     padding-left: 10px;
-    border: 1px solid rgb(140, 140, 140);
     text-align: center;
-    background-color: #bbbbbb;
+    background-color: #f7f7f7;
 }
 
 .bodyCell {
-    border: 1px solid black;
     padding: 0px;
     text-align: center;
 }
@@ -23,7 +22,7 @@
     display: flex;
     justify-content: space-between; /* This will push the two span elements to the extremes */
     align-items: center; /* This will vertically center the text if the container has a height */
-    background-color: #bbbbbb;
+    background-color: #f7f7f7;
 }
 
 .left {
@@ -59,4 +58,75 @@
 .conversationName, .lastMessage {
     text-align: left;
     padding: 5px;
+}
+
+.messages {
+    display: flex; /* This enables Flexbox for the container */
+    flex-direction: column;
+    background-color: #efeff4;
+}
+
+.messageOther {
+    margin: 10px;
+    padding: 10px;
+    text-align: left;
+    background-color: #ffffff;
+    border-radius: 20px;
+    border-bottom-left-radius: 0;
+    max-width: 200px;
+    overflow-wrap: break-word; /* This ensures that long words or strings wrap instead of overflowing */
+    align-self: flex-start
+}
+
+.messageUser {
+    margin: 10px;
+    padding: 10px;
+    text-align: right;
+    background-color: #dbe7eb;
+    border-radius: 20px;
+    border-bottom-right-radius: 0px;
+    max-width: 200px;
+    overflow-wrap: break-word; /* This ensures that long words or strings wrap instead of overflowing */
+    align-self: flex-end
+}
+
+.composeMessage {
+    display: flex; /* To align its children horizontally */
+    align-items: center; /* Vertically aligns the children in the middle */
+    background-color: #f7f7f7; /* Same background as other containers for consistency */
+    padding: 10px; /* Some padding for breathing space */
+    border-top: 1px solid rgb(140, 140, 140); /* A border at the top to separate from messages */
+}
+
+.messageButtons {
+    flex: 1; /* Takes available space to push text input and the send button to the edges */
+    display: flex; /* To align its children horizontally */
+    gap: 10px; /* Space between the buttons */
+    flex-grow: 0;  /* Ensures the messageButtons doesn't compete for space */
+}
+
+.messageButton {
+    padding: 5px 10px; /* Vertical and horizontal padding */
+    border: none; /* Removes default border */
+    border-radius: 5px; /* Rounded corners for a modern look */
+    background-color: #dbe7eb; /* A soft background color */
+    cursor: pointer; /* Cursor changes to hand when hovering over the button */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+.messageButton:hover {
+    background-color: #c2d3d6; /* Darkens the button a bit when hovered */
+}
+
+.textInput {
+    flex: 2; /* Allows the text input to take twice the space as the buttons area */
+    padding: 5px;
+    border: 1px solid rgb(140, 140, 140);
+    border-radius: 5px; /* Consistency in design with rounded corners */
+    margin-left: 10px; /* Some margin to separate from the buttons */
+    resize: none;
+    max-height: 100px;
+    overflow-y: auto;
+    flex-grow: 1;  /* Allows the textarea to grow and take up any available space */
+    margin-right: 10px;  /* Some margin to separate from the right button */
 }

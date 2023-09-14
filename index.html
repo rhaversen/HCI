@@ -55,8 +55,59 @@
                 </div>
             </div>
         </div>
-        <div class="bodyCell">2,2</div>
+        <div class="bodyCell">
+            <div class="messages">
+                <div class="messageOther">
+                    HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHello
+                </div>
+                <div class="messageUser">
+                    HelloHelloHelloHelloHelloHelloHelloHelloHelloHello
+                </div>
+                <div class="messageOther">
+                    Hello
+                </div>
+                <div class="messageUser">
+                    Hello
+                </div>
+                <div class="messageOther">
+                    Hello
+                </div>
+                <div class="messageUser">
+                    Hello
+                </div>
+                <div class="messageOther">
+                    Hello
+                </div>
+            </div>
+            <div class="composeMessage">
+                <span class="messageButtons">
+                    <button class="messageButton">
+                        A
+                    </button>
+                    <button class="messageButton">
+                        A
+                    </button>
+                </span>
+                <textarea class="textInput" placeholder="Input message here"></textarea>
+                <span class="messageButton">
+                    I
+                </span>
+            </div>
+        </div>
         <div class="bodyCell">2,3</div>
     </div>    
 </body>
+
+<script>
+    const textarea = document.querySelector('.textInput');
+
+    textarea.addEventListener('input', function() {
+        this.style.height = '20px';
+        this.style.height = (this.scrollHeight) + 'px';  // Set to new scroll height
+    });
+</script>
+
+
+
+
 </html>
