@@ -13,17 +13,22 @@ body, html {
     grid-template-columns: 300px minmax(200px, 1fr) 200px;
 }
 
-/* Header */
+/* Headers */
 .header {
     align-items: center;
     background-color: #f7f7f7;
     color: #323c47;
-    display: flex;
     font-weight: bold;
     height: 30px;
-    justify-content: space-between;
     padding: 10px;
-    text-align: center;
+}
+
+.subHeader {
+    align-items: center;
+    color: #323c47;
+    font-weight: bold;
+    height: 30px;
+    padding: 10px;
 }
 
 .left {
@@ -37,7 +42,7 @@ body, html {
 }
 
 /* Container */
-.roomsContainer, .messagesContainer {
+.roomsContainer, .messagesContainer, .roomInfoContainer {
     display: flex;
     flex-direction: column;
     flex: 1;
@@ -58,7 +63,7 @@ body, html {
     font-weight: bolder;
 }
 
-.lastMessage {
+.roomDescription {
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
     color: #323c47;
@@ -78,6 +83,7 @@ body, html {
     flex-direction: column;
     overflow-y: auto;
     padding: 10px;
+    min-height: 80%;
 }
 
 .messageOther, .messageUser {
@@ -124,7 +130,13 @@ body, html {
 }
 
 .sendMessageButton {
-    background-color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 5px 10px;
+}
+
+.joinRoomButton {
     border: none;
     border-radius: 5px;
     cursor: pointer;
