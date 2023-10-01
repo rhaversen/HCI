@@ -8,47 +8,54 @@
 </head>
 <body>
     <div class="grid">
-        <section class="conversationsContainer">
-            <header class="headerCell">
+
+        <section class="roomsContainer">
+            <header class="header">
                 <span class="left">Joined Rooms</span>
                 <span class="right">
                     <img class="icon" src="icons/icons8-plus-24.png">
                 </span>
             </header>
-            <main class="bodyCell">
-                <div class="conversations"></div>
-            </main>
+                <div class="rooms"></div>
         </section>
 
         <section class="messagesContainer">
-            <header class="headerCell">
+            <header class="header">
                 <span>Rasmus Haversen</span>
             </header>
-            <div class="bodyCell">
-                <div class="messages"></div>
-                <div class="composeMessage">
-                    <textarea class="textInput" placeholder="Input message here"></textarea>
-                    <button class="messageButton">
-                        <img class="icon" src="icons/icons8-send-message-24.png">
-                    </button>
-                </div>
+            <div class="messages"></div>
+            <div class="composeMessage">
+                <textarea class="textInput" placeholder="Input message here"></textarea>
+                <button class="sendMessageButton">
+                    <img class="icon" src="icons/icons8-send-message-24.png">
+                </button>
             </div>
         </section>
+        
     </div>
 
     <script>
         // Hardcoded conversations and messages
-        const conversations = [
-            { image: '1.jpg', userName: 'Celeste James', lastMessage: 'Catch up soon!' },
-            { image: '2.jpg', userName: 'Jorge Christensen', lastMessage: 'Just a heads-up, I might be running a little late for our meeting this evening. Got held up at a prior commitment. I\'ll keep you posted on my timing.' },
-            { image: '3.jpg', userName: 'Ray Mccarty', lastMessage: 'Checking on this, will update you soon.' },
-            { image: '4.jpg', userName: 'Shayla Coleman', lastMessage: 'Hey, I just wanted to let you know that I\'ve reviewed the document you sent. There are a few changes I\'d like to discuss. Can we set up a call for tomorrow?' },
-            { image: '5.jpg', userName: 'Kenneth Morales', lastMessage: 'Wanted to update you on the project status. We\'re slightly behind schedule due to some unforeseen issues, but the team is working overtime to catch up.' },
-            { image: '6.jpg', userName: 'Hugh Lamb', lastMessage: 'Thanks for the recommendation!' },
-            { image: '7.jpg', userName: 'Hugo Frye', lastMessage: 'The workshop you organized was incredibly insightful. I\'ve already started applying some of the techniques in my day-to-day work. Thanks for putting it together' },
-            { image: '8.jpg', userName: 'Gabriella Patton', lastMessage: 'Appreciate your help on this!' },
+        const roomsArray = [
+            { roomName: 'Celeste James', lastMessage: 'Catch up soon!' },
+            { roomName: 'Jorge Christensen', lastMessage: 'Just a heads-up, I might be running a little late for our meeting this evening. Got held up at a prior commitment. I\'ll keep you posted on my timing.' },
+            { roomName: 'Ray Mccarty', lastMessage: 'Checking on this, will update you soon.' },
+            { roomName: 'Shayla Coleman', lastMessage: 'Hey, I just wanted to let you know that I\'ve reviewed the document you sent. There are a few changes I\'d like to discuss. Can we set up a call for tomorrow?' },
+            { roomName: 'Kenneth Morales', lastMessage: 'Wanted to update you on the project status. We\'re slightly behind schedule due to some unforeseen issues, but the team is working overtime to catch up.' },
+            { roomName: 'Hugh Lamb', lastMessage: 'Thanks for the recommendation!' },
+            { roomName: 'Hugo Frye', lastMessage: 'The workshop you organized was incredibly insightful. I\'ve already started applying some of the techniques in my day-to-day work. Thanks for putting it together' },
+            { roomName: 'Gabriella Patton', lastMessage: 'Appreciate your help on this!' },
+            { roomName: 'Celeste James', lastMessage: 'Catch up soon!' },
+            { roomName: 'Jorge Christensen', lastMessage: 'Just a heads-up, I might be running a little late for our meeting this evening. Got held up at a prior commitment. I\'ll keep you posted on my timing.' },
+            { roomName: 'Ray Mccarty', lastMessage: 'Checking on this, will update you soon.' },
+            { roomName: 'Shayla Coleman', lastMessage: 'Hey, I just wanted to let you know that I\'ve reviewed the document you sent. There are a few changes I\'d like to discuss. Can we set up a call for tomorrow?' },
+            { roomName: 'Kenneth Morales', lastMessage: 'Wanted to update you on the project status. We\'re slightly behind schedule due to some unforeseen issues, but the team is working overtime to catch up.' },
+            { roomName: 'Hugh Lamb', lastMessage: 'Thanks for the recommendation!' },
+            { roomName: 'Hugo Frye', lastMessage: 'The workshop you organized was incredibly insightful. I\'ve already started applying some of the techniques in my day-to-day work. Thanks for putting it together' },
+            { roomName: 'Gabriella Patton', lastMessage: 'Appreciate your help on this!' },
+
         ];
-        const messages = [
+        const messagesArray = [
             { type: 'other', text: 'Hey, have you seen my blue notebook?' },
             { type: 'other', text: 'I had it in the meeting room earlier and can\'t seem to find it now' },
             { type: 'user', text: 'Oh, I think I saw it on the table near the window. Maybe you left it there?' },
@@ -80,68 +87,33 @@
         });
 
         // Messages rendering
-        const messagesContainer = document.querySelector('.messages');
-        messages.forEach(message => {
+        const messages = document.querySelector('.messages');
+        messagesArray.forEach(message => {
             const messageDiv = document.createElement('div');
             messageDiv.className = message.type === 'user' ? 'messageUser' : 'messageOther';
             messageDiv.textContent = message.text;
-            messagesContainer.appendChild(messageDiv);
+            messages.appendChild(messageDiv);
         });
 
-        // Conversation rendering
-        const conversationContainer = document.querySelector('.conversations');
+        // Rooms rendering
+        const rooms = document.querySelector('.rooms');
     
-        function createImageSpan(imageSrc) {
-            const imageSpan = document.createElement('span');
-    
-            const imgElement = document.createElement('img');
-            imgElement.src = 'images/' + imageSrc;
-            imgElement.className = 'convoImage';
-            imageSpan.appendChild(imgElement);
-    
-            return imageSpan;
-        }
-    
-        function createInfoSpan(userName, lastMessage) {
-            const infoSpan = document.createElement('span');
+        roomsArray.forEach(room => {
+            const roomDiv = document.createElement('div');
+            roomDiv.className = 'room';
     
             const nameDiv = document.createElement('div');
-            nameDiv.textContent = userName;
-            nameDiv.className = 'convoName';
+            nameDiv.textContent = room.roomName;
+            nameDiv.className = 'roomName';
     
             const lastMsgDiv = document.createElement('div');
-            lastMsgDiv.textContent = lastMessage;
+            lastMsgDiv.textContent = room.lastMessage;
             lastMsgDiv.className = 'lastMessage';
     
-            infoSpan.appendChild(nameDiv);
-            infoSpan.appendChild(lastMsgDiv);
-    
-            return infoSpan;
-        }
-    
-        conversations.forEach(convo => {
-            const conversationDiv = document.createElement('div');
-            conversationDiv.className = 'conversation';
-    
-            const imageSpan = createImageSpan(convo.image);
-            const infoSpan = createInfoSpan(convo.userName, convo.lastMessage);
-            
-            const microphoneSpan = document.createElement('span');
-            microphoneSpan.className = 'right';
-            const microphoneButton = document.createElement('button');
-            microphoneButton.className = 'messageButtons'
+            roomDiv.appendChild(nameDiv);
+            roomDiv.appendChild(lastMsgDiv);
 
-            const microphoneIcon = document.createElement('img');
-            microphoneIcon.src = 'icons/icons8-microphone-30.png';
-            microphoneIcon.className = 'icon';
-
-            microphoneSpan.appendChild(microphoneIcon)
-
-            conversationDiv.appendChild(imageSpan);
-            conversationDiv.appendChild(infoSpan);
-            conversationDiv.appendChild(microphoneSpan);
-
-            conversationContainer.appendChild(conversationDiv);
+            rooms.appendChild(roomDiv);
         });
     </script>
 
