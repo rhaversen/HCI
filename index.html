@@ -32,7 +32,7 @@
             <div class="composeMessage">
                 <textarea class="textInput" placeholder="Input message here"></textarea>
                 <button class="sendMessageButton">
-                    <img class="icon" src="icons/icons8-send-message-24.png" />
+                    <img class="icon" src="icons/icons8-send-message-24.png" alt="Send" />
                 </button>
             </div>
         </section>
@@ -46,6 +46,8 @@
 
     <script>
         let rooms = [];
+        let messages = [];
+        
         // Setup WarpTalk
         let wt = new WarpTalk("wss", "warp.cs.au.dk/talk/");
         console.log("Connecting to the WarpTalk server ...");
@@ -121,13 +123,13 @@
         });
 
         // Messages rendering
-        const messages = document.querySelector(".messages");
+        const messagesDiv = document.querySelector(".messages");
         messagesArray.forEach((message) => {
             const messageDiv = document.createElement("div");
             messageDiv.className =
                 message.type === "user" ? "messageUser" : "messageOther";
             messageDiv.textContent = message.text;
-            messages.appendChild(messageDiv);
+            messagesDiv.appendChild(messageDiv);
         });
 
         // Rooms rendering
@@ -144,6 +146,9 @@
                 const roomDiv = document.createElement("div");
                 roomDiv.className = "room";
 
+                const roomDetailsDiv = document.createElement('div');
+                roomDetailsDiv.className = 'roomDetails';
+
                 const roomNameDiv = document.createElement("div");
                 roomNameDiv.textContent = room.name;
                 roomNameDiv.className = "roomName";
@@ -153,23 +158,28 @@
                 roomDescriptionDiv.className = "roomDescription";
 
                 const actionButton = document.createElement("button");
+
                 if (room.joined) {
-                    actionButton.textContent = "Open Room";
+                    actionButton.innerHTML = '<img src="icons/icons8-open-128.png" alt="Open" class="icon">';
+                    actionButton.className = "openRoomButton";
                     actionButton.addEventListener("click", function () {
-                        // Logic to open the room
                         console.log(`Opening room: ${room.name}`);
+                        // Logic to open the room
                     });
                 } else {
-                    actionButton.textContent = "Join Room";
+                    actionButton.innerHTML = '<img src="icons/icons8-enter-100.png" alt="Join" class="icon">';
+                    actionButton.className = "joinRoomButton";
                     actionButton.addEventListener("click", function () {
-                        // Logic to join the room
                         console.log(`Joining room: ${room.name}`);
                         joinRoom(room.name);
                     });
                 }
 
-                roomDiv.appendChild(roomNameDiv);
-                roomDiv.appendChild(roomDescriptionDiv);
+
+                roomDetailsDiv.appendChild(roomNameDiv);
+                roomDetailsDiv.appendChild(roomDescriptionDiv);
+
+                roomDiv.appendChild(roomDetailsDiv);
                 roomDiv.appendChild(actionButton);
 
                 if (room.joined) {

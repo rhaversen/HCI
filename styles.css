@@ -41,13 +41,21 @@ body, html {
     text-align: right;
 }
 
-/* Container */
+/* Containers */
 .roomsContainer, .messagesContainer, .roomInfoContainer {
     display: flex;
     flex-direction: column;
     flex: 1;
     height: 100vh;
     overflow-wrap: break-word;
+}
+
+/* Rooms */
+.room {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
 }
 
 .rooms {
@@ -58,12 +66,19 @@ body, html {
     overflow-y: auto;
 }
 
-/* Rooms */
+.roomDetails {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
 .roomName {
-    font-weight: bolder;
+    font-weight: bold;
+    text-align: left;
 }
 
 .roomDescription {
+    text-align: left;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
     color: #323c47;
@@ -73,6 +88,10 @@ body, html {
     line-height: 20px;
     max-height: 40px;
     overflow: hidden;
+}
+
+.openRoom, .joinRoom {
+
 }
 
 /* Messages */
@@ -136,7 +155,7 @@ body, html {
     padding: 5px 10px;
 }
 
-.joinRoomButton {
+.joinRoomButton, .openRoomButton {
     border: none;
     border-radius: 5px;
     cursor: pointer;
