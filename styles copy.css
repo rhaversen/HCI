@@ -2,29 +2,25 @@ body, html {
     margin: 0;
     padding: 0;
     height: 100%;
-    font-family: sans-serif;
     overflow-y: hidden;
+    font-family: sans-serif;
 }
 
 .grid {
     display: grid;
     grid-template-columns: 300px minmax(200px, 1fr);
-    height: 100%;
-}
-
-@media (max-width: 1000px) {
-    .grid {
-        grid-template-columns: 300px 1fr;
-    }
 }
 
 @media (max-width: 600px) {
+    .roomsContainer {
+        display: none;
+    }
     .grid {
         grid-template-columns: 1fr;
     }
 }
 
-.headerCell {
+.header {
     color: #323c47;
     font-weight: bold;
     padding: 10px;
@@ -36,15 +32,9 @@ body, html {
     height: 30px;
 }
 
-.bodyCell {
-    height: 90%;
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-}
-
 .left {
     text-align: left;
+    align-items: left;
 }
 
 .right {
@@ -52,29 +42,20 @@ body, html {
     align-items: right;
 }
 
-.conversations {
+.roomsContainer, .messagesContainer {
     display: flex;
     flex-direction: column;
     overflow-wrap: break-word;
     flex: 1;
-    overflow-y: auto;
+    height: 100vh;
 }
 
-.conversation {
+.rooms {
     margin: 10px;
-    display: flex;
     align-items: center;
 }
 
-.convoImage {
-    margin-right: 10px;
-    width: 50px;
-    height: 50px;
-    object-fit: cover;
-    border-radius: 50%;
-}
-
-.convoName {
+.roomName {
     font-weight: bolder;
 }
 
@@ -92,13 +73,10 @@ body, html {
 
 .messages {
     display: flex;
+    overflow-y: auto;
     flex-direction: column;
-    flex-grow: 1;
     background-color: #efeff4;
     color: #333d48;
-    overflow-y: auto;
-    overflow-wrap: break-word;
-    height: 0px;
 }
 
 .messageOther {
@@ -135,19 +113,12 @@ body, html {
 
 .composeMessage {
     margin-left: 10px;
-    display: flex;
     align-items: center;
     padding: 10px;
     flex-shrink: 0;
 }
 
-.messageButtons {
-    flex: 0;
-    display: flex;
-    gap: 10px;
-}
-
-.messageButton {
+.sendMessageButton {
     padding: 5px 10px;
     border: none;
     border-radius: 5px;
@@ -165,10 +136,7 @@ body, html {
     resize: none;
     max-height: 100px;
     overflow-y: auto;
-}
-
-.microphoneButton {
-
+    font-family: sans-serif;
 }
 
 .icon {
