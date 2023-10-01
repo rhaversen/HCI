@@ -1,184 +1,188 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="/styles.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/styles.css" />
     <title>WarpTalk Rasmus Haversen</title>
-    <script src="./WarpTalk client example_files/warptalk.js" type="application/javascript"></script>
-</head>
-<body>
+    <script
+      src="./WarpTalk client example_files/warptalk.js"
+      type="application/javascript"
+    ></script>
+  </head>
+  <body>
     <div class="grid">
+      <section class="roomsContainer">
+        <header class="header">
+          <span>Rooms</span>
+        </header>
+        <div class="rooms">
+          <div class="subHeader">Joined Rooms</div>
+          <div class="joinedRooms"></div>
 
-        <section class="roomsContainer">
-            <header class="header">
-                <span>Rooms</span>
-            </header>
-                <div class="rooms">
-                    <div class="subHeader">Joined Rooms</div>
-                    <div class="joinedRooms"></div>
+          <div class="subHeader">Available Rooms</div>
+          <div class="availableRooms"></div>
+        </div>
+      </section>
 
-                    <div class="subHeader">Available Rooms</div>
-                    <div class="availableRooms"></div>
-                </div>
-        </section>
+      <section class="messagesContainer">
+        <header class="header">
+          <span>Rasmus Haversen</span>
+        </header>
+        <div class="messages"></div>
+        <div class="composeMessage">
+          <textarea
+            class="textInput"
+            placeholder="Input message here"
+          ></textarea>
+          <button class="sendMessageButton">
+            <img class="icon" src="icons/icons8-send-message-24.png" />
+          </button>
+        </div>
+      </section>
 
-        <section class="messagesContainer">
-            <header class="header">
-                <span>Rasmus Haversen</span>
-            </header>
-            <div class="messages"></div>
-            <div class="composeMessage">
-                <textarea class="textInput" placeholder="Input message here"></textarea>
-                <button class="sendMessageButton">
-                    <img class="icon" src="icons/icons8-send-message-24.png">
-                </button>
-            </div>
-        </section>
-
-        <section class="roomInfoContainer">
-            <header class="header">
-                <span>Room Info</span>
-            </header>
-        </section>
-        
+      <section class="roomInfoContainer">
+        <header class="header">
+          <span>Room Info</span>
+        </header>
+      </section>
     </div>
 
     <script>
-        let rooms = [];
-        // Setup WarpTalk
-        let wt = new WarpTalk("wss", "warp.cs.au.dk/talk/");
-        console.log("Connecting to the WarpTalk server ...");
+      let rooms = [];
+      // Setup WarpTalk
+      let wt = new WarpTalk("wss", "warp.cs.au.dk/talk/");
+      console.log("Connecting to the WarpTalk server ...");
 
-        wt.isLoggedIn(function (isLoggedIn) {
-            if (isLoggedIn) {
-                // If we are already logged in we can call connect that we also give a function to call when the connection has been established
-                wt.connect(connected);
-            } else {
-                // If not, we prompt the user for a temporary unregistered nickname
-                let nickname = prompt("What's your (unregistered) nickname?");
-                wt.connect(connected, nickname);
-            }
+      wt.isLoggedIn(function (isLoggedIn) {
+        if (isLoggedIn) {
+          // If we are already logged in we can call connect that we also give a function to call when the connection has been established
+          wt.connect(connected);
+        } else {
+          // If not, we prompt the user for a temporary unregistered nickname
+          let nickname = prompt("What's your (unregistered) nickname?");
+          wt.connect(connected, nickname);
+        }
+      });
+
+      // This function is called when the connection to the server is established (we give it as argument to connect above).
+      function connected() {
+        console.log("Connection established.");
+        // We can now list the rooms available on the server
+        console.log("The server has the following rooms:");
+        wt.availableRooms.forEach((room) => {
+          console.log(`- ${room.name}: ${room.description}`);
+          addRoom(room.name, room.description);
+        });
+        populateRooms();
+      }
+
+      function addRoom(name, description) {
+        rooms.push({
+          name: name,
+          description: description,
+          joined: false,
+          messages: [],
+          clients: [],
+        });
+      }
+
+      function joinRoom(roomName) {
+        const joinedRoom = wt.join(roomName);
+        const room = rooms.find((r) => r.name === roomName);
+        room.joined = true;
+        room.wtRoom = joinedRoom;
+
+        joinedRoom.onMessage((joinedRoom, msg) => {
+          console.log(`${joinedRoom.name} - ${msg.sender}: ${msg.message}`);
+          room.messages.push(msg);
         });
 
-        // This function is called when the connection to the server is established (we give it as argument to connect above).
-        function connected() {
-            console.log("Connection established.");
-            // We can now list the rooms available on the server
-            console.log("The server has the following rooms:");
-            wt.availableRooms.forEach((room) => {
-                console.log(`- ${room.name}: ${room.description}`);
-                addRoom(room.name, room.description);
-            });
-            populateRooms()
-        }  
-
-        function addRoom(name, description) {
-            rooms.push({
-                name: name,
-                description: description,
-                joined: false,
-                messages: [],
-                clients: []
-            });
-        }
-
-        function joinRoom(roomName){
-            const joinedRoom = wt.join(roomName);
-            const room = rooms.find(r => r.name === roomName);
-            room.joined = true;
-            room.wtRoom = joinedRoom;
-
-            joinedRoom.onMessage((joinedRoom, msg) => {
-                console.log(`${joinedRoom.name} - ${msg.sender}: ${msg.message}`);
-                room.messages.push(msg);
-            });
-
-            joinedRoom.onJoin((joinedRoom, nickname) => {
-                console.log(`${nickname} joined ${joinedRoom.name}`);
-                room.clients.push(nickname)
-            });
-
-            joinedRoom.onLeave((joinedRoom, nickname) => {
-                console.log(`${nickname} left ${joinedRoom.name}`);
-                const clientIndex = room.clients.findIndex(client => client === nickname);
-                room.clients.splice(clientIndex,1)
-            });
-
-            joinedRoom.onDisconnect((joinedRoom) => {
-                console.log(`Connection to server lost`);
-            });
-            populateRooms(); // Refresh the rooms list to reflect the changes
-        }
-
-        // Code for textarea adjustment
-        const textarea = document.querySelector('.textInput');
-        textarea.addEventListener('input', function() {
-            this.style.height = '20px';
-            this.style.height = (this.scrollHeight) + 'px';
+        joinedRoom.onJoin((joinedRoom, nickname) => {
+          console.log(`${nickname} joined ${joinedRoom.name}`);
+          room.clients.push(nickname);
         });
 
-        // Messages rendering
-        const messages = document.querySelector('.messages');
-        messagesArray.forEach(message => {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = message.type === 'user' ? 'messageUser' : 'messageOther';
-            messageDiv.textContent = message.text;
-            messages.appendChild(messageDiv);
+        joinedRoom.onLeave((joinedRoom, nickname) => {
+          console.log(`${nickname} left ${joinedRoom.name}`);
+          const clientIndex = room.clients.findIndex(
+            (client) => client === nickname
+          );
+          room.clients.splice(clientIndex, 1);
         });
 
-        // Rooms rendering
-        function populateRooms() {
-            const joinedRoomsContainer = document.querySelector('.joinedRooms');
-            const availableRoomsContainer = document.querySelector('.availableRooms');
+        joinedRoom.onDisconnect((joinedRoom) => {
+          console.log(`Connection to server lost`);
+        });
+        populateRooms(); // Refresh the rooms list to reflect the changes
+      }
 
-            // Clear any existing divs in both containers
-            joinedRoomsContainer.innerHTML = '';
-            availableRoomsContainer.innerHTML = '';
+      // Code for textarea adjustment
+      const textarea = document.querySelector(".textInput");
+      textarea.addEventListener("input", function () {
+        this.style.height = "20px";
+        this.style.height = this.scrollHeight + "px";
+      });
 
-            rooms.forEach(room => {
-                const roomDiv = document.createElement('div');
-                roomDiv.className = 'room';
+      // Messages rendering
+      const messages = document.querySelector(".messages");
+      messagesArray.forEach((message) => {
+        const messageDiv = document.createElement("div");
+        messageDiv.className =
+          message.type === "user" ? "messageUser" : "messageOther";
+        messageDiv.textContent = message.text;
+        messages.appendChild(messageDiv);
+      });
 
-                const roomNameDiv = document.createElement('div');
-                roomNameDiv.textContent = room.name;
-                roomNameDiv.className = 'roomName';
+      // Rooms rendering
+      function populateRooms() {
+        const joinedRoomsContainer = document.querySelector(".joinedRooms");
+        const availableRoomsContainer =
+          document.querySelector(".availableRooms");
 
-                const roomDescriptionDiv = document.createElement('div');
-                roomDescriptionDiv.textContent = room.description;
-                roomDescriptionDiv.className = 'roomDescription';
+        // Clear any existing divs in both containers
+        joinedRoomsContainer.innerHTML = "";
+        availableRoomsContainer.innerHTML = "";
 
-                const actionButton = document.createElement('button');
-                if (room.joined) {
-                    actionButton.textContent = 'Open Room';
-                    actionButton.addEventListener('click', function() {
-                        // Logic to open the room
-                        console.log(`Opening room: ${room.name}`);
-                    });
-                } else {
-                    actionButton.textContent = 'Join Room';
-                    actionButton.addEventListener('click', function() {
-                        // Logic to join the room
-                        console.log(`Joining room: ${room.name}`);
-                        joinRoom(room.name);
-                    });
-                }
+        rooms.forEach((room) => {
+          const roomDiv = document.createElement("div");
+          roomDiv.className = "room";
 
-                roomDiv.appendChild(roomNameDiv);
-                roomDiv.appendChild(roomDescriptionDiv);
-                roomDiv.appendChild(actionButton);
+          const roomNameDiv = document.createElement("div");
+          roomNameDiv.textContent = room.name;
+          roomNameDiv.className = "roomName";
 
-                if (room.joined) {
-                    joinedRoomsContainer.appendChild(roomDiv);
-                } else {
-                    availableRoomsContainer.appendChild(roomDiv);
-                }
+          const roomDescriptionDiv = document.createElement("div");
+          roomDescriptionDiv.textContent = room.description;
+          roomDescriptionDiv.className = "roomDescription";
+
+          const actionButton = document.createElement("button");
+          if (room.joined) {
+            actionButton.textContent = "Open Room";
+            actionButton.addEventListener("click", function () {
+              // Logic to open the room
+              console.log(`Opening room: ${room.name}`);
             });
-        }
+          } else {
+            actionButton.textContent = "Join Room";
+            actionButton.addEventListener("click", function () {
+              // Logic to join the room
+              console.log(`Joining room: ${room.name}`);
+              joinRoom(room.name);
+            });
+          }
 
+          roomDiv.appendChild(roomNameDiv);
+          roomDiv.appendChild(roomDescriptionDiv);
+          roomDiv.appendChild(actionButton);
+
+          if (room.joined) {
+            joinedRoomsContainer.appendChild(roomDiv);
+          } else {
+            availableRoomsContainer.appendChild(roomDiv);
+          }
+        });
+      }
     </script>
-
-</body>
-
+  </body>
 </html>
-
