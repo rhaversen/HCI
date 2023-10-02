@@ -26,7 +26,7 @@
 
         <section class="messagesContainer">
             <header class="header">
-                <span>Rasmus Haversen</span>
+                <span id="roomNameHeader">No Room Opened</span>
             </header>
             <div class="messages"></div>
             <div class="composeMessage">
@@ -45,9 +45,10 @@
     </div>
 
     <script>
-        let rooms = [];
-        let messages = [];
-        
+        let openedRoomName;
+        let messages = {};
+        let user;
+
         // Setup WarpTalk
         let wt = new WarpTalk("wss", "warp.cs.au.dk/talk/");
         console.log("Connecting to the WarpTalk server ...");
@@ -60,6 +61,7 @@
                 // If not, we prompt the user for a temporary unregistered nickname
                 let nickname = prompt("What's your (unregistered) nickname?");
                 wt.connect(connected, nickname);
+                user = nickname;
             }
         });
 
@@ -70,49 +72,57 @@
             console.log("The server has the following rooms:");
             wt.availableRooms.forEach((room) => {
                 console.log(`- ${room.name}: ${room.description}`);
-                addRoom(room.name, room.description);
             });
             populateRooms();
         }
 
-        function addRoom(name, description) {
-            rooms.push({
-                name: name,
-                description: description,
-                joined: false,
-                messages: [],
-                clients: [],
-            });
-        }
-
         function joinRoom(roomName) {
             const joinedRoom = wt.join(roomName);
-            const room = rooms.find((r) => r.name === roomName);
-            room.joined = true;
-            room.wtRoom = joinedRoom;
 
             joinedRoom.onMessage((joinedRoom, msg) => {
                 console.log(`${joinedRoom.name} - ${msg.sender}: ${msg.message}`);
-                room.messages.push(msg);
+
+                // Check if the room exists in the rooms object, if not, initialize it
+                if (!messages[joinedRoom.name]) {
+                    messages[joinedRoom.name] = [];
+                }
+
+                // Push the message to the specific room's array
+                messages[joinedRoom.name].push(msg);
+                console.log(messages)
+                
+                // If the opened room is this room, update the messages
+                if (joinedRoom.name === openedRoomName) {
+                    populateMessages();
+                }
             });
 
             joinedRoom.onJoin((joinedRoom, nickname) => {
                 console.log(`${nickname} joined ${joinedRoom.name}`);
-                room.clients.push(nickname);
+                if (joinedRoom.name === openedRoomName) {
+                    populateClients();
+                }
             });
 
             joinedRoom.onLeave((joinedRoom, nickname) => {
                 console.log(`${nickname} left ${joinedRoom.name}`);
-                const clientIndex = room.clients.findIndex(
-                    (client) => client === nickname
-                );
-                room.clients.splice(clientIndex, 1);
+                if (joinedRoom.name === openedRoomName) {
+                    populateClients();
+                }
             });
 
             joinedRoom.onDisconnect((joinedRoom) => {
                 console.log(`Connection to server lost`);
             });
+
             populateRooms(); // Refresh the rooms list to reflect the changes
+        }
+
+        function openRoom(room) {
+            openedRoomName = room.name;
+            document.getElementById('roomNameHeader').textContent = room.name;
+            populateMessages();
+            populateClients();
         }
 
         // Code for textarea adjustment
@@ -123,14 +133,30 @@
         });
 
         // Messages rendering
-        const messagesDiv = document.querySelector(".messages");
-        messagesArray.forEach((message) => {
-            const messageDiv = document.createElement("div");
-            messageDiv.className =
-                message.type === "user" ? "messageUser" : "messageOther";
-            messageDiv.textContent = message.text;
-            messagesDiv.appendChild(messageDiv);
-        });
+        function populateMessages() {
+            const messagesDiv = document.querySelector(".messages");
+
+            // Clear messages
+            messagesDiv.innerHTML = "";
+
+            // Check if any messages has been received. If not, don't render any
+            if (!messages[openedRoomName]) {
+                return;
+            }
+
+            messages[openedRoomName].forEach(item => {
+                const messageDiv = document.createElement("div");
+                messageDiv.className =
+                    item.sender === user ? "messageUser" : "messageOther";
+                messageDiv.textContent = item.message;
+                messagesDiv.appendChild(messageDiv);
+            });
+        }
+
+        // Clients rendering
+        function populateClients() {
+            
+        }
 
         // Rooms rendering
         function populateRooms() {
@@ -142,7 +168,7 @@
             joinedRoomsContainer.innerHTML = "";
             availableRoomsContainer.innerHTML = "";
 
-            rooms.forEach((room) => {
+            wt.availableRooms.forEach((room) => {
                 const roomDiv = document.createElement("div");
                 roomDiv.className = "room";
 
@@ -159,22 +185,21 @@
 
                 const actionButton = document.createElement("button");
 
-                if (room.joined) {
-                    actionButton.innerHTML = '<img src="icons/icons8-open-128.png" alt="Open" class="icon">';
-                    actionButton.className = "openRoomButton";
-                    actionButton.addEventListener("click", function () {
-                        console.log(`Opening room: ${room.name}`);
-                        // Logic to open the room
-                    });
-                } else {
+                if (!wt.joinedRooms[room.name]) {
                     actionButton.innerHTML = '<img src="icons/icons8-enter-100.png" alt="Join" class="icon">';
                     actionButton.className = "joinRoomButton";
                     actionButton.addEventListener("click", function () {
                         console.log(`Joining room: ${room.name}`);
                         joinRoom(room.name);
                     });
+                } else {
+                    actionButton.innerHTML = '<img src="icons/icons8-open-128.png" alt="Open" class="icon">';
+                    actionButton.className = "openRoomButton";
+                    actionButton.addEventListener("click", function () {
+                        console.log(`Opening room: ${room.name}`);
+                        openRoom(room);
+                    });
                 }
-
 
                 roomDetailsDiv.appendChild(roomNameDiv);
                 roomDetailsDiv.appendChild(roomDescriptionDiv);
@@ -182,10 +207,10 @@
                 roomDiv.appendChild(roomDetailsDiv);
                 roomDiv.appendChild(actionButton);
 
-                if (room.joined) {
-                    joinedRoomsContainer.appendChild(roomDiv);
-                } else {
+                if (!wt.joinedRooms[room.name]) {
                     availableRoomsContainer.appendChild(roomDiv);
+                } else {
+                    joinedRoomsContainer.appendChild(roomDiv);
                 }
             });
         }
