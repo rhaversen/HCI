@@ -100,6 +100,14 @@ html {
     border-radius: 5px;
     cursor: pointer;
     padding: 5px 10px;
+    transition: background-color 0.3s ease;
+    transition: scale 0.3s ease;
+}
+
+.openRoomButton:hover,
+.joinRoomButton:hover {
+    background-color: #d7d7df;
+    scale: 110%;
 }
 
 /* Messages */
@@ -166,7 +174,14 @@ html {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    padding: 5px 10px;
+    padding: 10px;
+    transition: background-color 0.3s ease;
+    transition: scale 0.3s ease;
+}
+
+.sendMessageButton:hover {
+    background-color: #d7d7df;
+    scale: 110%;
 }
 
 .textInput {
@@ -191,6 +206,7 @@ html {
 
 .clients {
     padding: 10px;
+    overflow-y: auto;
 }
 
 .client {
@@ -201,6 +217,8 @@ html {
     padding: 10px;
     border: 5px;
     margin: 5px;
+    max-height: fit-content;
+    word-break: break-word;
 }
 
 .icon {
