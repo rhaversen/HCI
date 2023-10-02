@@ -43,15 +43,15 @@
             </header>
             <div class="subHeader">Room Description</div>
             <div class="roomInfoDescription"></div>
-            <div class="subHeader">Connected Clients</div>
+            <div class="subHeader", id="connectedClientsHeader">Connected Clients</div>
             <div class="clients"></div>
         </section>
     </div>
 
     <script>
-        let openedRoomName;
-        let messages = {};
-        let user;
+        let openedRoomName; // Used for drawing the appropriate messages and clients
+        let messages = {}; // Contains all messages from all rooms, including events like join or leave, timestamp and sender
+        let user; // Logged in user nickname, used to compare message senders
 
         // Setup WarpTalk
         let wt = new WarpTalk("wss", "warp.cs.au.dk/talk/");
@@ -158,8 +158,7 @@
         function openRoom(room) {
             openedRoomName = room.name;
             document.getElementById("roomNameHeader").textContent = room.name;
-            document.querySelector(".roomInfoDescription").textContent =
-                room.description;
+            document.querySelector(".roomInfoDescription").textContent = room.description;
             populateMessages();
             populateClients();
         }
@@ -167,27 +166,26 @@
         // Code for sending message
         const textInput = document.querySelector(".textInput");
         const sendMessageButton = document.querySelector(".sendMessageButton");
-
+        sendMessageButton.addEventListener("click", function () {
+            sendMessage();
+        });
+        textInput.addEventListener("keydown", function (e) {
+            if (e.key === "Enter" && !e.shiftKey) { // Shift + Enter makes a new line, doesn't send
+                sendMessage();
+                e.preventDefault(); // Don't insert a new line when pressing enter
+            }
+        });
         function sendMessage() {
             console.log(wt.joinedRooms);
             wt.joinedRooms[openedRoomName].send(textInput.value);
             textInput.value = "";
         }
-        sendMessageButton.addEventListener("click", function () {
-            sendMessage();
-        });
-        textInput.addEventListener("keydown", function (e) {
-            if (e.key === "Enter" && !e.shiftKey) {
-                sendMessage();
-                e.preventDefault(); // Don't insert a new line when pressing enter
-            }
-        });
 
         // Code for textarea adjustment
         const textarea = document.querySelector(".textInput");
         textarea.addEventListener("input", function () {
-            this.style.height = "20px";
-            this.style.height = this.scrollHeight + "px";
+            this.style.height = "20px"; // Reset height
+            this.style.height = this.scrollHeight + "px"; // Set height to scrollbar height in px
         });
 
         // Messages rendering
@@ -203,12 +201,15 @@
             }
 
             messages[openedRoomName].forEach((item) => {
-                const timeString = item.timestamp.toLocaleTimeString("en-GB", {
+                // Convert time
+                const timeString = item.timestamp.toLocaleTimeString("dk-DK", {
                     hour: "2-digit",
                     minute: "2-digit",
+                    second: "2-digit",
                     hour12: false,
                 });
 
+                // Handle different events in array
                 switch (item.event) {
                     case "message":
                         // Create a div for the message
@@ -250,10 +251,16 @@
 
         // Clients rendering
         function populateClients() {
+            const connectedClientsHeader = document.getElementById('connectedClientsHeader')
             const connectedClients = document.querySelector(".clients");
 
+            // Remove clients
             connectedClients.innerHTML = "";
 
+            // Set header to include number of connected clients
+            connectedClientsHeader.textContent = "Connected Clients: " + wt.joinedRooms[openedRoomName].clients.length
+
+            // Create divs for all clients
             wt.joinedRooms[openedRoomName].clients.forEach((client) => {
                 const clientDiv = document.createElement("div");
                 clientDiv.className = "client";
@@ -273,6 +280,7 @@
             joinedRoomsContainer.innerHTML = "";
             availableRoomsContainer.innerHTML = "";
 
+            // Create divs for all rooms
             wt.availableRooms.forEach((room) => {
                 const roomDiv = document.createElement("div");
                 roomDiv.className = "room";
@@ -290,6 +298,7 @@
 
                 const actionButton = document.createElement("button");
 
+                // Add event listeners and icons based on wether the room is joined or not
                 if (!wt.joinedRooms[room.name]) {
                     actionButton.innerHTML =
                         '<img src="icons/icons8-enter-100.png" alt="Join" class="icon">';
@@ -314,6 +323,7 @@
                 roomDiv.appendChild(roomDetailsDiv);
                 roomDiv.appendChild(actionButton);
 
+                // Add to the correct container
                 if (!wt.joinedRooms[room.name]) {
                     availableRoomsContainer.appendChild(roomDiv);
                 } else {
