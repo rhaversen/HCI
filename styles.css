@@ -1,5 +1,6 @@
 /* General reset */
-body, html {
+body,
+html {
     font-family: sans-serif;
     height: 100%;
     margin: 0;
@@ -42,7 +43,9 @@ body, html {
 }
 
 /* Containers */
-.roomsContainer, .messagesContainer, .roomInfoContainer {
+.roomsContainer,
+.messagesContainer,
+.roomInfoContainer {
     display: flex;
     flex-direction: column;
     flex: 1;
@@ -91,7 +94,8 @@ body, html {
     overflow: hidden;
 }
 
-.openRoomButton, .joinRoomButton {
+.openRoomButton,
+.joinRoomButton {
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -109,7 +113,8 @@ body, html {
     min-height: 80%;
 }
 
-.messageOther, .messageUser {
+.messageOther,
+.messageUser {
     background-color: #ffffff;
     border-radius: 20px 20px 20px 0;
     margin: 1px;
@@ -164,13 +169,6 @@ body, html {
     padding: 5px 10px;
 }
 
-.joinRoomButton, .openRoomButton {
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    padding: 5px 10px;
-}
-
 .textInput {
     background-color: #f7f7f7;
     border: none;
@@ -214,6 +212,7 @@ body, html {
     .roomsContainer {
         display: none;
     }
+
     .grid {
         grid-template-columns: 1fr 200px;
     }
@@ -223,6 +222,7 @@ body, html {
     .roomsContainer {
         display: none;
     }
+
     .grid {
         grid-template-columns: 1fr;
     }

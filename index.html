@@ -42,10 +42,9 @@
                 <span>Room Info</span>
             </header>
             <div class="subHeader">Room Description</div>
-                <div class="roomInfoDescription"></div>
+            <div class="roomInfoDescription"></div>
             <div class="subHeader">Connected Clients</div>
-            <div class="clients">
-            </div>
+            <div class="clients"></div>
         </section>
     </div>
 
@@ -98,7 +97,7 @@
                     event: "message",
                     sender: msg.sender,
                     text: msg.message,
-                    timestamp: new Date()
+                    timestamp: new Date(),
                 });
 
                 // If the opened room is this room, update the messages
@@ -119,7 +118,7 @@
                 messages[joinedRoom.name].push({
                     event: "join",
                     text: nickname,
-                    timestamp: new Date()
+                    timestamp: new Date(),
                 });
 
                 // If the opened room is this room, update the messages and clients
@@ -141,7 +140,7 @@
                 messages[joinedRoom.name].push({
                     event: "leave",
                     text: nickname,
-                    timestamp: new Date()
+                    timestamp: new Date(),
                 });
 
                 // If the opened room is this room, update the messages and clients
@@ -158,8 +157,9 @@
 
         function openRoom(room) {
             openedRoomName = room.name;
-            document.getElementById('roomNameHeader').textContent = room.name;
-            document.querySelector('.roomInfoDescription').textContent = room.description;
+            document.getElementById("roomNameHeader").textContent = room.name;
+            document.querySelector(".roomInfoDescription").textContent =
+                room.description;
             populateMessages();
             populateClients();
         }
@@ -171,15 +171,15 @@
         function sendMessage() {
             console.log(wt.joinedRooms);
             wt.joinedRooms[openedRoomName].send(textInput.value);
-            textInput.value = '';
+            textInput.value = "";
         }
         sendMessageButton.addEventListener("click", function () {
             sendMessage();
         });
-        textInput.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' && !e.shiftKey) {
+        textInput.addEventListener("keydown", function (e) {
+            if (e.key === "Enter" && !e.shiftKey) {
                 sendMessage();
-                e.preventDefault() // Don't insert a new line when pressing enter
+                e.preventDefault(); // Don't insert a new line when pressing enter
             }
         });
 
@@ -202,26 +202,31 @@
                 return;
             }
 
-            messages[openedRoomName].forEach(item => {
-                const timeString = item.timestamp.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false });
+            messages[openedRoomName].forEach((item) => {
+                const timeString = item.timestamp.toLocaleTimeString("en-GB", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: false,
+                });
 
-                switch(item.event) {
-
-                    case 'message':
+                switch (item.event) {
+                    case "message":
                         // Create a div for the message
                         const messageDiv = document.createElement("div");
-                        messageDiv.className = item.sender === user ? "messageUser" : "messageOther";
+                        messageDiv.className =
+                            item.sender === user ? "messageUser" : "messageOther";
                         messageDiv.textContent = item.text;
                         messagesDiv.appendChild(messageDiv);
 
                         // Create a div for the sender and timestamp
                         const senderDiv = document.createElement("div");
-                        senderDiv.className = item.sender === user ? "senderInfoUser" : "senderInfoOther";
+                        senderDiv.className =
+                            item.sender === user ? "senderInfoUser" : "senderInfoOther";
                         senderDiv.textContent = `${item.sender} at ${timeString}`;
                         messagesDiv.appendChild(senderDiv);
                         break;
 
-                    case 'leave':
+                    case "leave":
                         // Create a div for the event
                         const leaveDiv = document.createElement("div");
                         leaveDiv.className = "messageEvent";
@@ -229,7 +234,7 @@
                         messagesDiv.appendChild(leaveDiv);
                         break;
 
-                    case 'join':
+                    case "join":
                         // Create a div for the event
                         const joinDiv = document.createElement("div");
                         joinDiv.className = "messageEvent";
@@ -238,7 +243,7 @@
                         break;
 
                     default:
-                        console.log('Invalid message event');
+                        console.log("Invalid message event");
                 }
             });
         }
@@ -250,9 +255,9 @@
             connectedClients.innerHTML = "";
 
             wt.joinedRooms[openedRoomName].clients.forEach((client) => {
-                const clientDiv = document.createElement('div');
+                const clientDiv = document.createElement("div");
                 clientDiv.className = "client";
-                clientDiv.textContent = client.nickname
+                clientDiv.textContent = client.nickname;
 
                 connectedClients.appendChild(clientDiv);
             });
@@ -261,7 +266,8 @@
         // Rooms rendering
         function populateRooms() {
             const joinedRoomsContainer = document.querySelector(".joinedRooms");
-            const availableRoomsContainer = document.querySelector(".availableRooms");
+            const availableRoomsContainer =
+                document.querySelector(".availableRooms");
 
             // Clear any existing divs in both containers
             joinedRoomsContainer.innerHTML = "";
@@ -271,8 +277,8 @@
                 const roomDiv = document.createElement("div");
                 roomDiv.className = "room";
 
-                const roomDetailsDiv = document.createElement('div');
-                roomDetailsDiv.className = 'roomDetails';
+                const roomDetailsDiv = document.createElement("div");
+                roomDetailsDiv.className = "roomDetails";
 
                 const roomNameDiv = document.createElement("div");
                 roomNameDiv.textContent = room.name;
@@ -285,14 +291,16 @@
                 const actionButton = document.createElement("button");
 
                 if (!wt.joinedRooms[room.name]) {
-                    actionButton.innerHTML = '<img src="icons/icons8-enter-100.png" alt="Join" class="icon">';
+                    actionButton.innerHTML =
+                        '<img src="icons/icons8-enter-100.png" alt="Join" class="icon">';
                     actionButton.className = "joinRoomButton";
                     actionButton.addEventListener("click", function () {
                         console.log(`Joining room: ${room.name}`);
                         joinRoom(room.name);
                     });
                 } else {
-                    actionButton.innerHTML = '<img src="icons/icons8-open-128.png" alt="Open" class="icon">';
+                    actionButton.innerHTML =
+                        '<img src="icons/icons8-open-128.png" alt="Open" class="icon">';
                     actionButton.className = "openRoomButton";
                     actionButton.addEventListener("click", function () {
                         console.log(`Opening room: ${room.name}`);
