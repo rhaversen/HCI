@@ -128,19 +128,24 @@ body, html {
 .messageOther {
     align-self: flex-start;
     background-color: #ffffff;
-    border-radius: 20px 20px 20px 0px;  /* Adjusted border-radius */
+    border-radius: 20px 20px 20px 0px;
 }
 
-.messageOther + .messageOther {
-    border-top-left-radius: 0;
+.senderInfoUser {
+    padding: 5px;
+    align-self: right;
+    text-align: right;
 }
 
-.messageUser + .messageUser {
-    border-top-right-radius: 0;
+.senderInfoOther {
+    padding: 5px;
+    align-self: left;
+    text-align: left;
 }
 
-.messageOther + .messageUser, .messageUser + .messageOther {
-    margin-top: 10px;
+.messageEvent {
+    align-self: center;
+    padding: 5px;
 }
 
 /* Compose message */

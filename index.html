@@ -83,6 +83,7 @@
 
         function joinRoom(roomName) {
             const joinedRoom = wt.join(roomName);
+            populateRooms(); // Refresh the rooms
 
             joinedRoom.onMessage((joinedRoom, msg) => {
                 console.log(`${joinedRoom.name} - ${msg.sender}: ${msg.message}`);
@@ -93,9 +94,13 @@
                 }
 
                 // Push the message to the specific room's array
-                messages[joinedRoom.name].push(msg);
-                console.log(messages)
-                
+                messages[joinedRoom.name].push({
+                    event: "message",
+                    sender: msg.sender,
+                    text: msg.message,
+                    timestamp: new Date()
+                });
+
                 // If the opened room is this room, update the messages
                 if (joinedRoom.name === openedRoomName) {
                     populateMessages();
@@ -104,23 +109,51 @@
 
             joinedRoom.onJoin((joinedRoom, nickname) => {
                 console.log(`${nickname} joined ${joinedRoom.name}`);
+
+                // Check if the room exists in the rooms object, if not, initialize it
+                if (!messages[joinedRoom.name]) {
+                    messages[joinedRoom.name] = [];
+                }
+
+                // Push the message to the specific room's array
+                messages[joinedRoom.name].push({
+                    event: "join",
+                    text: nickname,
+                    timestamp: new Date()
+                });
+
+                // If the opened room is this room, update the messages and clients
                 if (joinedRoom.name === openedRoomName) {
                     populateClients();
+                    populateMessages();
                 }
             });
 
             joinedRoom.onLeave((joinedRoom, nickname) => {
                 console.log(`${nickname} left ${joinedRoom.name}`);
+
+                // Check if the room exists in the rooms object, if not, initialize it
+                if (!messages[joinedRoom.name]) {
+                    messages[joinedRoom.name] = [];
+                }
+
+                // Push the message to the specific room's array
+                messages[joinedRoom.name].push({
+                    event: "leave",
+                    text: nickname,
+                    timestamp: new Date()
+                });
+
+                // If the opened room is this room, update the messages and clients
                 if (joinedRoom.name === openedRoomName) {
                     populateClients();
+                    populateMessages();
                 }
             });
 
             joinedRoom.onDisconnect((joinedRoom) => {
                 console.log(`Connection to server lost`);
             });
-
-            populateRooms(); // Refresh the rooms list to reflect the changes
         }
 
         function openRoom(room) {
@@ -170,11 +203,43 @@
             }
 
             messages[openedRoomName].forEach(item => {
-                const messageDiv = document.createElement("div");
-                messageDiv.className =
-                    item.sender === user ? "messageUser" : "messageOther";
-                messageDiv.textContent = item.message;
-                messagesDiv.appendChild(messageDiv);
+                const timeString = item.timestamp.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false });
+
+                switch(item.event) {
+
+                    case 'message':
+                        // Create a div for the message
+                        const messageDiv = document.createElement("div");
+                        messageDiv.className = item.sender === user ? "messageUser" : "messageOther";
+                        messageDiv.textContent = item.text;
+                        messagesDiv.appendChild(messageDiv);
+
+                        // Create a div for the sender and timestamp
+                        const senderDiv = document.createElement("div");
+                        senderDiv.className = item.sender === user ? "senderInfoUser" : "senderInfoOther";
+                        senderDiv.textContent = `${item.sender} at ${timeString}`;
+                        messagesDiv.appendChild(senderDiv);
+                        break;
+
+                    case 'leave':
+                        // Create a div for the event
+                        const leaveDiv = document.createElement("div");
+                        leaveDiv.className = "messageEvent";
+                        leaveDiv.textContent = `${item.text} has left the chat at ${timeString}`;
+                        messagesDiv.appendChild(leaveDiv);
+                        break;
+
+                    case 'join':
+                        // Create a div for the event
+                        const joinDiv = document.createElement("div");
+                        joinDiv.className = "messageEvent";
+                        joinDiv.textContent = `${item.text} has joined the chat at ${timeString}`;
+                        messagesDiv.appendChild(joinDiv);
+                        break;
+
+                    default:
+                        console.log('Invalid message event');
+                }
             });
         }
 
