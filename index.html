@@ -131,6 +131,25 @@
             populateClients();
         }
 
+        // Code for sending message
+        const textInput = document.querySelector(".textInput");
+        const sendMessageButton = document.querySelector(".sendMessageButton");
+
+        function sendMessage() {
+            console.log(wt.joinedRooms);
+            wt.joinedRooms[openedRoomName].send(textInput.value);
+            textInput.value = '';
+        }
+        sendMessageButton.addEventListener("click", function () {
+            sendMessage();
+        });
+        textInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                sendMessage();
+                e.preventDefault() // Don't insert a new line when pressing enter
+            }
+        });
+
         // Code for textarea adjustment
         const textarea = document.querySelector(".textInput");
         textarea.addEventListener("input", function () {
@@ -164,8 +183,6 @@
             const connectedClients = document.querySelector(".clients");
 
             connectedClients.innerHTML = "";
-
-            console.log(wt);
 
             wt.joinedRooms[openedRoomName].clients.forEach((client) => {
                 const clientDiv = document.createElement('div');
