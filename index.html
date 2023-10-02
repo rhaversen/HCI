@@ -41,6 +41,11 @@
             <header class="header">
                 <span>Room Info</span>
             </header>
+            <div class="subHeader">Room Description</div>
+                <div class="roomInfoDescription"></div>
+            <div class="subHeader">Connected Clients</div>
+            <div class="clients">
+            </div>
         </section>
     </div>
 
@@ -121,6 +126,7 @@
         function openRoom(room) {
             openedRoomName = room.name;
             document.getElementById('roomNameHeader').textContent = room.name;
+            document.querySelector('.roomInfoDescription').textContent = room.description;
             populateMessages();
             populateClients();
         }
@@ -155,14 +161,25 @@
 
         // Clients rendering
         function populateClients() {
-            
+            const connectedClients = document.querySelector(".clients");
+
+            connectedClients.innerHTML = "";
+
+            console.log(wt);
+
+            wt.joinedRooms[openedRoomName].clients.forEach((client) => {
+                const clientDiv = document.createElement('div');
+                clientDiv.className = "client";
+                clientDiv.textContent = client.nickname
+
+                connectedClients.appendChild(clientDiv);
+            });
         }
 
         // Rooms rendering
         function populateRooms() {
             const joinedRoomsContainer = document.querySelector(".joinedRooms");
-            const availableRoomsContainer =
-                document.querySelector(".availableRooms");
+            const availableRoomsContainer = document.querySelector(".availableRooms");
 
             // Clear any existing divs in both containers
             joinedRoomsContainer.innerHTML = "";

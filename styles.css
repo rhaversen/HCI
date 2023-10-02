@@ -73,6 +73,7 @@ body, html {
 }
 
 .roomName {
+    color: #323c47;
     font-weight: bold;
     text-align: left;
 }
@@ -90,8 +91,11 @@ body, html {
     overflow: hidden;
 }
 
-.openRoom, .joinRoom {
-
+.openRoomButton, .joinRoomButton {
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 5px 10px;
 }
 
 /* Messages */
@@ -173,6 +177,27 @@ body, html {
     overflow-y: auto;
     padding: 5px;
     resize: none;
+}
+
+/* Room Info */
+.roomInfoDescription {
+    padding: 10px;
+    margin-bottom: 10px;
+    overflow-wrap: break-word;
+}
+
+.clients {
+    padding: 10px;
+}
+
+.client {
+    display: flex;
+    align-items: center;
+    background-color: #efeff4;
+    border-radius: 10px;
+    padding: 10px;
+    border: 5px;
+    margin: 5px;
 }
 
 .icon {
