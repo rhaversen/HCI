@@ -49,7 +49,7 @@
     </div>
 
     <script>
-        let openedRoomName; // Used for drawing the appropriate messages and clients
+        let openedRoomName; // Used for drawing the appropriate messages and clients and sending message to correct room
         let messages = {}; // Contains all messages from all rooms, including events like join or leave, timestamp and sender
         let user; // Logged in user nickname, used to compare message senders
 
@@ -80,6 +80,7 @@
             populateRooms();
         }
 
+        // Join a room
         function joinRoom(roomName) {
             const joinedRoom = wt.join(roomName);
             populateRooms(); // Refresh the rooms
@@ -155,6 +156,7 @@
             });
         }
 
+        // Open a room
         function openRoom(room) {
             openedRoomName = room.name;
             document.getElementById("roomNameHeader").textContent = room.name;
@@ -175,6 +177,8 @@
                 e.preventDefault(); // Don't insert a new line when pressing enter
             }
         });
+
+        // Send message to opened room
         function sendMessage() {
             console.log(wt.joinedRooms);
             wt.joinedRooms[openedRoomName].send(textInput.value);
