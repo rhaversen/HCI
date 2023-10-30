@@ -234,7 +234,7 @@
                     case "leave":
                         // Create a div for the event
                         const leaveDiv = document.createElement("div");
-                        leaveDiv.className = "messageEvent";
+                        leaveDiv.className = "messageEventLeft";
                         leaveDiv.textContent = `${item.text} has left the chat at ${timeString}`;
                         messagesDiv.appendChild(leaveDiv);
                         break;
@@ -242,7 +242,7 @@
                     case "join":
                         // Create a div for the event
                         const joinDiv = document.createElement("div");
-                        joinDiv.className = "messageEvent";
+                        joinDiv.className = "messageEventJoin";
                         joinDiv.textContent = `${item.text} has joined the chat at ${timeString}`;
                         messagesDiv.appendChild(joinDiv);
                         break;

@@ -6,6 +6,8 @@ html {
     margin: 0;
     overflow-y: hidden;
     padding: 0;
+    background-color: rgb(47, 52, 63);
+    color: rgb(230, 233, 239);
 }
 
 /* Grid layout */
@@ -18,7 +20,6 @@ html {
 .header {
     align-self: center;
     text-align: center;
-    color: #323c47;
     font-weight: bold;
     height: 30px;
     padding: 10px;
@@ -27,7 +28,6 @@ html {
 
 .subHeader {
     align-self: center;
-    color: #323c47;
     font-weight: bold;
     height: 30px;
     padding: 10px;
@@ -78,7 +78,7 @@ html {
 }
 
 .roomName {
-    color: #323c47;
+    color: white;
     font-weight: bold;
     text-align: left;
 }
@@ -87,7 +87,6 @@ html {
     text-align: left;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
-    color: #323c47;
     display: -webkit-box;
     font-size: small;
     font-weight: lighter;
@@ -98,8 +97,10 @@ html {
 
 .openRoomButton,
 .joinRoomButton {
-    border: none;
+    background-color: rgb(230, 233, 239);
+    border: solid;
     border-radius: 5px;
+    border-color: rgb(230, 233, 239);
     cursor: pointer;
     padding: 5px 10px;
     transition: background-color 0.3s ease;
@@ -114,8 +115,8 @@ html {
 
 /* Messages */
 .messages {
-    background-color: #efeff4;
-    color: #333d48;
+    background-color: rgb(61, 66, 81);
+    color: white;
     display: flex;
     flex-direction: column;
     overflow-y: auto;
@@ -134,14 +135,14 @@ html {
 
 .messageUser {
     align-self: flex-end;
-    background-color: #dbe7eb;
+    background-color: rgb(135, 160, 190);
     border-radius: 20px 20px 0 20px;
     margin-right: 10px;
 }
 
 .messageOther {
     align-self: flex-start;
-    background-color: #ffffff;
+    background-color: rgb(174, 143, 171);
     border-radius: 20px 20px 20px 0px;
 }
 
@@ -149,7 +150,7 @@ html {
 .senderInfoOther {
     padding: 5px;
     font-size: small;
-    color: #323c47;
+    color: white;
 }
 
 .senderInfoUser {
@@ -162,8 +163,14 @@ html {
     text-align: left;
 }
 
-.messageEvent {
-    color: #323c47;
+.messageEventLeft {
+    color: rgb(180, 102, 108);
+    align-self: center;
+    padding: 5px;
+}
+
+.messageEventJoin {
+    color: rgb(168, 189, 145);
     align-self: center;
     padding: 5px;
 }
@@ -192,7 +199,7 @@ html {
 }
 
 .textInput {
-    background-color: #f7f7f7;
+    background-color: rgb(61, 66, 81);
     border: none;
     border-radius: 5px;
     flex: 1;
@@ -219,7 +226,7 @@ html {
 .client {
     display: flex;
     align-items: center;
-    background-color: #efeff4;
+    background-color: rgb(61, 66, 81);
     border-radius: 10px;
     padding: 10px;
     border: 5px;
