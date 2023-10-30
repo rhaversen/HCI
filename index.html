@@ -291,6 +291,10 @@
                 clientDiv.className = "client";
                 clientDiv.textContent = client.nickname;
 
+                if (!client.registered) {
+                    clientDiv.textContent += " (Guest)"
+                }
+
                 connectedClients.appendChild(clientDiv);
             });
         }
