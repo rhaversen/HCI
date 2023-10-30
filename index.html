@@ -295,6 +295,14 @@
             // Set header to include number of connected clients
             connectedClientsHeader.textContent = "Connected Clients: " + wt.joinedRooms[openedRoomName].clients.length
 
+
+            // Add the current user to the top
+            const clientDiv = document.createElement("div");
+            clientDiv.className = "client";
+            clientDiv.textContent = "(You)"
+            clientDiv.textContent += " " + user;
+            connectedClients.appendChild(clientDiv);
+
             // Create divs for all clients
             wt.joinedRooms[openedRoomName].clients.forEach((client) => {
                 const clientDiv = document.createElement("div");
@@ -303,6 +311,11 @@
 
                 if (!client.registered) {
                     clientDiv.textContent += " (Guest)"
+                }
+
+                // Dont render the user as client, as they will be created above all other clients
+                if (client.nickname === user) {
+                    return
                 }
 
                 connectedClients.appendChild(clientDiv);
