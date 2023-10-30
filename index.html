@@ -168,6 +168,7 @@
         function leaveRoom(room){
             wt.leave(room.name);
             populateRooms();
+            messages[room.name] = null;
             if (room.name === openedRoomName) {
                 openedRoomName = null;
                 populateMessages();
