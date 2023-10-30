@@ -95,8 +95,15 @@ html {
     overflow: hidden;
 }
 
+.roomButtonsContainer {
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: row;
+}
+
 .openRoomButton,
-.joinRoomButton {
+.joinRoomButton,
+.leaveRoomButton {
     background-color: rgb(230, 233, 239);
     border: solid;
     border-radius: 5px;
@@ -108,7 +115,8 @@ html {
 }
 
 .openRoomButton:hover,
-.joinRoomButton:hover {
+.joinRoomButton:hover,
+.leaveRoomButton:hover {
     background-color: #d7d7df;
     scale: 110%;
 }
@@ -241,17 +249,18 @@ html {
 
 /* Media query */
 @media (max-width: 1000px) {
-    .roomsContainer {
+    .roomInfoContainer {
         display: none;
     }
 
     .grid {
-        grid-template-columns: 1fr 200px;
+        grid-template-columns: 300px 1fr;
     }
 }
 
 @media (max-width: 700px) {
-    .roomsContainer {
+    .roomsContainer,
+    .roomInfoContainer {
         display: none;
     }
 
