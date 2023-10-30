@@ -191,7 +191,6 @@
 
         // Send message to opened room
         function sendMessage() {
-            console.log(wt.joinedRooms);
             wt.joinedRooms[openedRoomName].send(textInput.value);
             textInput.value = "";
         }
@@ -220,8 +219,6 @@
                 return;
             }
 
-            console.log(openedRoomName);
-            console.log(messages[openedRoomName])
             messages[openedRoomName].forEach((item) => {
                 // Convert time
                 const timeString = item.timestamp.toLocaleTimeString("dk-DK", {
