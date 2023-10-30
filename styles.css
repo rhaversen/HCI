@@ -242,17 +242,18 @@ html {
 
 /* Media query */
 @media (max-width: 1000px) {
-    .roomsContainer {
+    .roomInfoContainer {
         display: none;
     }
 
     .grid {
-        grid-template-columns: 1fr 200px;
+        grid-template-columns: 300px 1fr;
     }
 }
 
 @media (max-width: 700px) {
-    .roomsContainer {
+    .roomsContainer,
+    .roomInfoContainer {
         display: none;
     }
 
