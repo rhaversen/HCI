@@ -202,7 +202,8 @@
 
         // Send message to opened room
         function sendMessage() {
-            wt.joinedRooms[openedRoomName].send(textInput.value);
+            const formattedText = textInput.value.replace(/\n/g, '<br>');
+            wt.joinedRooms[openedRoomName].send(formattedText);
             textInput.value = "";
         }
 
