@@ -105,7 +105,6 @@ html {
 .joinRoomButton,
 .leaveRoomButton {
     background-color: rgb(230, 233, 239);
-    border: solid;
     border-radius: 5px;
     border-color: rgb(230, 233, 239);
     cursor: pointer;
@@ -208,6 +207,7 @@ html {
 
 .textInput {
     background-color: rgb(61, 66, 81);
+    color: rgb(230, 233, 239);;
     border: none;
     border-radius: 5px;
     flex: 1;
