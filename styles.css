@@ -96,8 +96,15 @@ html {
     overflow: hidden;
 }
 
+.roomButtonsContainer {
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: row;
+}
+
 .openRoomButton,
-.joinRoomButton {
+.joinRoomButton,
+.leaveRoomButton {
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -107,7 +114,8 @@ html {
 }
 
 .openRoomButton:hover,
-.joinRoomButton:hover {
+.joinRoomButton:hover,
+.leaveRoomButton:hover {
     background-color: #d7d7df;
     scale: 110%;
 }
