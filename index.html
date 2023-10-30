@@ -69,6 +69,17 @@
             }
         });
 
+        // Follow new messages if the messages div is scrolled all the way to the bottom. Otherwise, stay where the view currently is.
+        document.addEventListener("DOMContentLoaded", function() {
+            const messagesDiv = document.querySelector('.messages');
+
+            let shouldScroll = true;
+
+            messagesDiv.addEventListener('scroll', function() {
+                shouldScroll = messagesDiv.scrollTop + messagesDiv.clientHeight === messagesDiv.scrollHeight;
+            });
+        });
+
         // This function is called when the connection to the server is established (we give it as argument to connect above).
         function connected() {
             console.log("Connection established.");
