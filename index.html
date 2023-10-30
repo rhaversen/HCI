@@ -5,11 +5,21 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" type="text/css" href="/styles.css" />
+    <link rel="stylesheet" type="text/css" href="/loginPrompt.css" />
     <title>WarpTalk Marcus Hessel & Rasmus Haversen</title>
     <script src="./WarpTalk client example_files/warptalk.js" type="application/javascript"></script>
 </head>
 
 <body>
+    <div id="promptContainer">
+        <label for="nicknameInput">Nickname:</label>
+        <input type="text" id="nicknameInput" name="nickname">
+
+        <label for="passwordInput">Password:</label>
+        <input type="password" id="passwordInput" name="password">
+
+        <button id="loginButton">Login</button>
+    </div>
     <div class="grid">
         <section class="roomsContainer">
             <header class="header">
@@ -22,6 +32,9 @@
                 <div class="subHeader">Available Rooms</div>
                 <div class="availableRooms"></div>
             </div>
+            <button class="logoutButton" id="logoutButton">
+                <img class="icon" src="icons/icons8-left-50.png" alt="Send" />
+            </button>
         </section>
 
         <section class="messagesContainer">
@@ -58,27 +71,36 @@
         console.log("Connecting to the WarpTalk server ...");
 
         wt.isLoggedIn(function (isLoggedIn) {
+            const promptContainer = document.getElementById("promptContainer");
             if (isLoggedIn) {
                 // If we are already logged in we can call connect that we also give a function to call when the connection has been established
+                promptContainer.style.display = 'none';
+                console.log(isLoggedIn)
                 wt.connect(connected);
             } else {
-                // If not, we prompt the user for a temporary unregistered nickname
-                let nickname = prompt("What's your (unregistered) nickname?");
-                wt.connect(connected, nickname);
-                user = nickname;
+                promptContainer.style.display = 'block';
             }
         });
 
-        // Follow new messages if the messages div is scrolled all the way to the bottom. Otherwise, stay where the view currently is.
-        document.addEventListener("DOMContentLoaded", function() {
-            const messagesDiv = document.querySelector('.messages');
+        function logInAsGuestOrRegistered() {
+            let nickname = document.getElementById("nicknameInput").value;
+            let password = document.getElementById("passwordInput").value;
+            user = nickname;
+            if (!password) {
+                document.getElementById("promptContainer").style.display = 'none';
+                wt.connect(connected, nickname);
+            } else {
+                wt.login(nickname, password);
+            }
+        }
 
-            let shouldScroll = true;
+        function logout(){
+            wt.logout();
+        }
 
-            messagesDiv.addEventListener('scroll', function() {
-                shouldScroll = messagesDiv.scrollTop + messagesDiv.clientHeight === messagesDiv.scrollHeight;
-            });
-        });
+        document.getElementById('loginButton').addEventListener('click', logInAsGuestOrRegistered);
+        document.getElementById('logoutButton').addEventListener('click', logout);
+
 
         // This function is called when the connection to the server is established (we give it as argument to connect above).
         function connected() {
