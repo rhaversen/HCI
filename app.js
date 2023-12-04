@@ -22,7 +22,6 @@ function logInAsGuestOrRegistered() {
     let password = document.getElementById("passwordInput").value;
     user = nickname;
     if (!password) {
-        document.getElementById("promptContainer").style.display = 'none';
         wt.connect(connected, nickname);
     } else {
         wt.login(nickname, password);
@@ -39,6 +38,10 @@ document.getElementById('logoutButton').addEventListener('click', logout);
 
 // This function is called when the connection to the server is established (we give it as argument to connect above).
 function connected() {
+    // Remove the login prompt
+    document.getElementById("promptContainer").style.display = 'none';
+    document.getElementById('promptContainer').innerHTML = ''
+
     user = wt.nickname;
     console.log("Connection established.");
     // We can now list the rooms available on the server
