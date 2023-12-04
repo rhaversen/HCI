@@ -194,7 +194,6 @@ function populateMessages() {
         const timeString = item.timestamp.toLocaleTimeString("dk-DK", {
             hour: "2-digit",
             minute: "2-digit",
-            second: "2-digit",
             hour12: false,
         });
 
@@ -220,6 +219,7 @@ function populateMessages() {
                 // Create a div for the event
                 const leaveDiv = document.createElement("div");
                 leaveDiv.className = "messageEventLeft";
+                leaveDiv.ariaLabel = `${item.text} has left the chat at ${timeString.replace(".", " ")}`;
                 leaveDiv.innerHTML = `${item.text} has left the chat at ${timeString}`;
                 messagesDiv.appendChild(leaveDiv);
                 break;
@@ -228,6 +228,7 @@ function populateMessages() {
                 // Create a div for the event
                 const joinDiv = document.createElement("div");
                 joinDiv.className = "messageEventJoin";
+                joinDiv.ariaLabel = `${item.text} has joined the chat at ${timeString.replace(".", " ")}`;
                 joinDiv.textContent = `${item.text} has joined the chat at ${timeString}`;
                 messagesDiv.appendChild(joinDiv);
                 break;
