@@ -18,26 +18,26 @@
         <label for="passwordInput">Password:</label>
         <input type="password" id="passwordInput" name="password" placeholder="(Leave empty for guest login)">
 
-        <button id="loginButton">Login</button>
+        <button id="loginButton" aria-label="Login">Login</button>
     </div>
     <div class="grid">
-        <section class="roomsContainer">
+        <section class="roomsContainer" aria-labelledby="room Name Header">
             <header class="header">
                 <span>Rooms</span>
             </header>
             <div class="rooms">
-                <div class="subHeader">Joined Rooms</div>
+                <div class="subHeader" aria-label="Joined rooms">Joined Rooms</div>
                 <div class="joinedRooms"></div>
 
-                <div class="subHeader">Available Rooms</div>
+                <div class="subHeader" aria-label="Available Rooms">Available Rooms</div>
                 <div class="availableRooms"></div>
             </div>
-            <button class="logoutButton" id="logoutButton">
+            <button class="logoutButton" id="logoutButton" aria-label="Logout">
                 <p><strong>Logout</strong></p>
             </button>
         </section>
 
-        <section class="messagesContainer">
+        <section class="messagesContainer" aria-labelledby="Message box">
             <header class="header">
                 <span id="roomNameHeader">No Room Opened</span>
             </header>

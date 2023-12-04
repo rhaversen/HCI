@@ -318,7 +318,8 @@
     if (!wt.joinedRooms[room.name]) {
     const joinRoomButton = document.createElement("button");
     joinRoomButton.innerHTML =
-    '<img src="icons/icons8-enter-100.png" alt="Join" class="icon">';
+    '<img src="icons/icons8-enter-100.png" alt="Join" class="icon" aria-label="placeholder">';
+    joinRoomButton.ariaLabel = `join room ${room.name}`;
     joinRoomButton.className = "joinRoomButton";
     joinRoomButton.addEventListener("click", function () {
     console.log(`Joining room: ${room.name}`);
@@ -329,8 +330,9 @@
 } else {
     const leaveRoomButton = document.createElement("button");
     leaveRoomButton.innerHTML =
-    '<img src="icons/icons8-close-24.png" alt="Leave" class="icon">';
+    '<img src="icons/icons8-close-24.png" alt="Leave" class="icon" aria-label="placeholder">';
     leaveRoomButton.className = "leaveRoomButton";
+    leaveRoomButton.ariaLabel = `leave room ${room.name}`;
     leaveRoomButton.addEventListener("click", function () {
     console.log(`Leaving room: ${room.name}`);
     leaveRoom(room);
