@@ -146,14 +146,14 @@ html {
 
 .messageUser {
     align-self: flex-end;
-    background-color: rgb(135, 160, 190);
+    background-color: rgb(88, 104, 124);
     border-radius: 20px 20px 0 20px;
     margin-right: 10px;
 }
 
 .messageOther {
     align-self: flex-start;
-    background-color: rgb(174, 143, 171);
+    background-color: rgb(115, 95, 113);
     border-radius: 20px 20px 20px 0px;
 }
 
@@ -175,7 +175,7 @@ html {
 }
 
 .messageEventLeft {
-    color: rgb(180, 102, 108);
+    color: rgb(204, 116, 123);
     align-self: center;
     padding: 5px;
 }
